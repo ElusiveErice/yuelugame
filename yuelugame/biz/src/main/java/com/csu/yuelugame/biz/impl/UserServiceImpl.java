@@ -8,11 +8,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     @Override
     public boolean login(User user){
-        if(user.getAccount().equals("1001")){
-            if(user.getPassword().equals("123456")){
-                return true;
-            }
-        }
+
         return false;
     }
 }
