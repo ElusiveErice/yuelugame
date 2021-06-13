@@ -2,14 +2,14 @@ package com.csu.yuelugame.biz.beans.chinesechess;
 
 import java.util.List;
 
-public class ChineseChessRoomSingleton {
-    private volatile static ChineseChessRoomSingleton chineseChessRoomSingleton;
-    private ChineseChessRoomSingleton(){}
-    public static ChineseChessRoomSingleton getSingleton(){
+public class ChineseChessRoomManager {
+    private volatile static ChineseChessRoomManager chineseChessRoomSingleton;
+    private ChineseChessRoomManager(){}
+    public static ChineseChessRoomManager getManager(){
         if(chineseChessRoomSingleton ==null){
-            synchronized (ChineseChessRoomSingleton.class){
+            synchronized (ChineseChessRoomManager.class){
                 if(chineseChessRoomSingleton ==null){
-                    chineseChessRoomSingleton=new ChineseChessRoomSingleton();
+                    chineseChessRoomSingleton=new ChineseChessRoomManager();
                 }
             }
         }
