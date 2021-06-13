@@ -39,6 +39,7 @@ public class ChineseChessController {
     public APIResult PlayroomCreate(){
         //创建一个新的房间，为用户分配红/黑方，返回房间信息和用户身份
         ChineseChessRoom cr=chineseChessHomeService.CreateChineseChessRoom();
+
         return APIResult.createResult(cr);
     }
     @RequestMapping("/enter")

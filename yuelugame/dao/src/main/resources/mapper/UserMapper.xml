@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:改mapper.xml映射文件的唯一标识并且必须和数据处理层的接口的路径相同-->
+<mapper namespace="com.csu.yuelugame.dao.mapper.UserMapper">
+    <!--   必须添加property属性 ，区别于是否加主键-->
+    <resultMap id="User" type="com.csu.yuelugame.dao.beans.User">
+        <id property="id" column="id"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+    </resultMap>
+    <!--id的值必须和数据处理层的接口名一致-->
+    <!--此处的User-->
+    <select id="login" parameterType="Long" resultMap="User">
+        select * from user_info
+        where id = #{id}
+    </select>
+
+    <insert id="register" useGeneratedKeys="true" keyProperty="id" parameterType="com.csu.yuelugame.dao.beans.User">
+        insert into user_info(password, name)
+        values(#{password}, #{name})
+    </insert>
+
+</mapper>
