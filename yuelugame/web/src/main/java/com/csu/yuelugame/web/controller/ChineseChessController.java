@@ -23,8 +23,6 @@ public class ChineseChessController {
         ChineseChessRoom cr=new ChineseChessRoom();
         cr.setPlayerCount(1);
         cr.setState(true);
-        cr.setRed(new User(1,"123","123","airuike"));
-        cr.setBlack(new User(2,"1234","1234","airuike2"));
         return APIResult.createResult(cr);
     }
     @PostMapping("/create")
@@ -33,7 +31,6 @@ public class ChineseChessController {
         ChineseChessRoom cr=new ChineseChessRoom();
         cr.setPlayerCount(1);
         cr.setState(true);
-        cr.setRed(new User(1,account,"123","airuike"));
         return APIResult.createResult(cr);
     }
     @RequestMapping("/enter")

@@ -1,23 +1,25 @@
 package com.csu.yuelugame.dao.beans;
 
 public class User {
-    private int id;
+    private long id;
     private String account;
     private String password;
     private String name;
 
-    public User(int id, String account, String password, String name) {
+    public User(){
+    }
+    public User(long id, String account, String password, String name) {
         this.id = id;
         this.account = account;
         this.password = password;
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
