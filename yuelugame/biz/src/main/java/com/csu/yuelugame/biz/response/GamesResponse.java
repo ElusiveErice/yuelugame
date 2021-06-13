@@ -1,4 +1,4 @@
-package com.csu.yuelugame.web.response;
+package com.csu.yuelugame.biz.response;
 
 public class GamesResponse {
     GameData[] gameList;
