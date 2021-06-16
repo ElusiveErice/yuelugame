@@ -37,8 +37,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public RegisterResponse register(String password, String name){
+    public RegisterResponse register(String name, String password){
         RegisterResponse registerResponse = new RegisterResponse();
+        registerResponse.setRegister(false);
+
+        User user = new User();
+        user.setName(name);
+        user.setPassword(password);
+        userMapper.register(user);
+
+        registerResponse.setId(user.getId());
+        registerResponse.setRegister(true);
+        registerResponse.setMessage("注册成功");
         return registerResponse;
     }
 }
