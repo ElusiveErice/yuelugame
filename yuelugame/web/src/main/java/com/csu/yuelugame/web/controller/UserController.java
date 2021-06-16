@@ -16,8 +16,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/login")
-    public APIResult login(@RequestBody User user){
-        return APIResult.createResult(userService.login(user.getId(), user.getPassword()));
+    @RequestMapping(value = "login",method = RequestMethod.POST)
+    public APIResult login(@RequestParam long id, @RequestParam String password){
+        return APIResult.createResult(userService.login(id, password));
     }
 }
