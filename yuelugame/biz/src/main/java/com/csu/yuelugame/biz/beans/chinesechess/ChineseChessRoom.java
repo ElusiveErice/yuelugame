@@ -7,6 +7,7 @@ import java.util.UUID;
 public class ChineseChessRoom {
 
     private String id;
+    private String name;
     private int playerCount;
     private boolean state;
     private User red;
@@ -14,6 +15,7 @@ public class ChineseChessRoom {
 
     public ChineseChessRoom(){  //无参数，无用户
         this.id= UUID.randomUUID().toString();
+        this.name=null;
         this.playerCount=0;
         this.state=true;
         this.red=null;
@@ -26,6 +28,14 @@ public class ChineseChessRoom {
     public void setId(String id) {
         this.id = id;
     }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 
     public int getPlayerCount() {
         return playerCount;

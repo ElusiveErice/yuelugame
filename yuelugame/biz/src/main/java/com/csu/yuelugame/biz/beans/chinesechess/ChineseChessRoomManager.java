@@ -1,5 +1,6 @@
 package com.csu.yuelugame.biz.beans.chinesechess;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChineseChessRoomManager {
@@ -16,7 +17,7 @@ public class ChineseChessRoomManager {
         return chineseChessRoomSingleton;
     }
 
-    private List<ChineseChessRoom> roomList;
+    private List<ChineseChessRoom> roomList=new ArrayList<ChineseChessRoom>();
 
     public List<ChineseChessRoom> getRoomList() {
         return roomList;

@@ -10,17 +10,26 @@ import java.util.List;
 @Service
 public class ChineseChessHomeServiceImpl implements ChineseChessHomeService{
     @Override
-    public ChineseChessRoom CreateChineseChessRoom(){
+    public ChineseChessRoom CreateChineseChessRoom(String name){
+        List<ChineseChessRoom> ccrs=ChineseChessRoomManager.getManager().getRoomList();
+        for(int i=0;i<ccrs.size();i++){
+            if(ccrs.get(i).getName().equals(name)){
+                return null;
+            }
+        }
         ChineseChessRoom ccr=new ChineseChessRoom();
+        ccr.setName(name);
         ChineseChessRoomManager.getManager().getRoomList().add(ccr);
         return ccr;
     }
     @Override
-    public ChineseChessRoom FindChineseChessRoom(String id){
+    public ChineseChessRoom FindChineseChessRoom(String name){
         List<ChineseChessRoom> ccrs=ChineseChessRoomManager.getManager().getRoomList();
         for(int i=0;i<ccrs.size();i++){
-            if(ccrs.get(i).getId().equals(id))
+            if(ccrs.get(i).getName().equals(name)){
                 return ccrs.get(i);
+            }
+
         }
         //找不到的情况
         return null;

@@ -3,50 +3,53 @@ package com.csu.yuelugame.web.controller;
 import com.csu.yuelugame.biz.ChineseChessHomeService;
 import com.csu.yuelugame.biz.beans.chinesechess.ChineseChessRoom;
 import com.csu.yuelugame.biz.beans.chinesechess.ChineseChessRoomManager;
-import com.csu.yuelugame.dao.beans.User;
+import com.csu.yuelugame.biz.response.ChineseChessRoomCantCreateResponse;
+import com.csu.yuelugame.biz.response.ChineseChessRoomCantFindResponse;
+import com.csu.yuelugame.biz.response.ChineseChessRoomCreateResponse;
+import com.csu.yuelugame.biz.response.ChineseChessRoomFindResponse;
 import com.csu.yuelugame.web.APIResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/playroom")
+@RequestMapping("/chinesechessroom")
 public class ChineseChessController {
 
     @Autowired
     private ChineseChessHomeService chineseChessHomeService;
 
-    @RequestMapping("/list")
+    @RequestMapping("/roomlist")
     public APIResult PlayroomList(){
         //返回所有的房间信息
         return APIResult.createResult(ChineseChessRoomManager.getManager().getRoomList());
     }
 
-    @PostMapping("/find")
-    public APIResult PlayroomFind(String id){
-        //查询id对应的房间，返回该房间的信息
-        ChineseChessRoom cr=chineseChessHomeService.FindChineseChessRoom(id);
+    @RequestMapping("/findroom")
+    public APIResult PlayroomFind( String name){
+        ChineseChessRoom cr=chineseChessHomeService.FindChineseChessRoom(name);
         if(cr==null){
-            return null;
+            return APIResult.createResult(new ChineseChessRoomCantFindResponse());
         }
         else{
-            return APIResult.createResult(cr);
+            return APIResult.createResult(new ChineseChessRoomFindResponse(cr));
         }
     }
-    @PostMapping("/create")
-    public APIResult PlayroomCreate(){
+    @PostMapping("/createroom")
+    public APIResult PlayroomCreate(@RequestParam  String name){
         //创建一个新的房间，为用户分配红/黑方，返回房间信息和用户身份
-        ChineseChessRoom cr=chineseChessHomeService.CreateChineseChessRoom();
+        ChineseChessRoom cr=chineseChessHomeService.CreateChineseChessRoom(name);
+        if(cr==null){
+            return APIResult.createResult(new ChineseChessRoomCantCreateResponse());
+        }
+        else{
+            return APIResult.createResult(new ChineseChessRoomCreateResponse(cr));
+        }
 
-        return APIResult.createResult(cr);
     }
     @RequestMapping("/enter")
     public APIResult PlayroomEnter(String id){
-        //进入房间
         return null;
 
     }
-
 }
