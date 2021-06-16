@@ -1,14 +1,24 @@
 package com.csu.yuelugame.biz.response;
 
-public class GamesResponse {
-    GameData[] gameList;
 
-    public GamesResponse(GameData[] gameList) {
+import com.csu.yuelugame.dao.beans.Game;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class GamesResponse {
+    private List<Game> gameList;
+
+    public GamesResponse(){};
+    public GamesResponse(List<Game> gameList) {
         this.gameList = gameList;
     }
-}
 
-class GameData{
-    String name;
-    String cover;
+    public List<Game> getGameList() {
+        return gameList;
+    }
+
+    public void setGameList(List<Game> gameList) {
+        this.gameList = gameList;
+    }
 }

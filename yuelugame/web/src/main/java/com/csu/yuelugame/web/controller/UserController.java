@@ -20,4 +20,9 @@ public class UserController {
     public APIResult login(@RequestBody User user){
         return APIResult.createResult(userService.login(user.getId(), user.getPassword()));
     }
+
+    @PostMapping("/register")
+    public APIResult register(@RequestBody User user){
+        return APIResult.createResult(userService.register(user.getName(), user.getPassword()));
+    }
 }
