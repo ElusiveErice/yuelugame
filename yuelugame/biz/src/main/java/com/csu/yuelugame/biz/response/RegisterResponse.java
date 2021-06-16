@@ -3,15 +3,15 @@ package com.csu.yuelugame.biz.response;
 public class RegisterResponse {
     private boolean register;
     private String message;
-    private String account;
+    private long id;
 
     public RegisterResponse() {
     }
 
-    public RegisterResponse(boolean register, String message, String account) {
+    public RegisterResponse(boolean register, String message, long id) {
         this.register = register;
         this.message = message;
-        this.account = account;
+        this.id = id;
     }
 
     public boolean isRegister() {
@@ -30,11 +30,11 @@ public class RegisterResponse {
         this.message = message;
     }
 
-    public String getAccount() {
-        return account;
+    public long getId() {
+        return id;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public void setId(long id) {
+        this.id = id;
     }
 }
