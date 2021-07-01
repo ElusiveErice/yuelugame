@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 public class TestServiceImpl implements TestService {
     @Override
     public String hello() {
-        return "Hello world";
+        return "hello world";
     }
 }

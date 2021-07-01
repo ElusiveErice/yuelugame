@@ -1,6 +1,6 @@
 package com.csu.yuelugame.biz.response;
 
-import com.csu.yuelugame.biz.beans.chinesechess.ChineseChessRoom;
+import com.csu.yuelugame.biz.chinesechess.ChineseChessRoom;
 
 public class ChineseChessRoomCreateResponse {
 

@@ -1,13 +1,17 @@
-package com.csu.yuelugame.dao.beans;
+package com.csu.yuelugame.dao.entities;
 
-public class User {
+public class UserDo {
     private long id;
     private String password;
     private String name;
 
-    public User(){
+    public UserDo() {
+        this.id = 0;
+        this.password = null;
+        this.name = null;
     }
-    public User(long id, String account, String password, String name) {
+
+    public UserDo(long id, String account, String password, String name) {
         this.id = id;
         this.password = password;
         this.name = name;

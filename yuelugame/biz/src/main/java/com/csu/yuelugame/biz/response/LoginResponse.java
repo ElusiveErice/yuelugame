@@ -4,16 +4,11 @@ public class LoginResponse {
     private boolean login;
     private String message;
     private long id;
-    private String name;
 
     public LoginResponse(){
-    }
-
-    public LoginResponse(boolean login, String message, long id, String name) {
-        this.login = login;
-        this.message = message;
-        this.id = id;
-        this.name = name;
+        this.login=false;
+        this.message="登录失败";
+        this.id=0;
     }
 
     public boolean isLogin() {
@@ -38,13 +33,5 @@ public class LoginResponse {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }

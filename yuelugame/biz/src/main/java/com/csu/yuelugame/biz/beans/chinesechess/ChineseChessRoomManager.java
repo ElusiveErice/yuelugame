@@ -1,5 +1,7 @@
 package com.csu.yuelugame.biz.beans.chinesechess;
 
+import com.csu.yuelugame.biz.chinesechess.ChineseChessRoom;
+
 import java.util.ArrayList;
 import java.util.List;
 

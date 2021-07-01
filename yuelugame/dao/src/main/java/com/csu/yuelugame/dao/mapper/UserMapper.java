@@ -1,8 +1,8 @@
 package com.csu.yuelugame.dao.mapper;
 
-import com.csu.yuelugame.dao.beans.User;
+import com.csu.yuelugame.dao.entities.UserDo;
 
 public interface UserMapper {
-     User login(long id);
-     long register(User user);
+     String login(long id);
+     void register(UserDo user);
 }
