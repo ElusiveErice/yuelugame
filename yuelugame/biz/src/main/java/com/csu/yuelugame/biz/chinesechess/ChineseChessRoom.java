@@ -171,7 +171,7 @@ public class ChineseChessRoom {
 
         //起点棋子是否存在且颜色为执子人颜色
         ChineseChessPieceEnum startPiece = chessBoard[x1][y1];
-        if (startPiece == null || startPiece.getColor() == playerMap.get(userId).getColor()) {
+        if (startPiece == null || startPiece.getColor() != playerMap.get(userId).getColor()) {
             return false;
         }
 
@@ -195,13 +195,13 @@ public class ChineseChessRoom {
         chessManual.offer(step);
 
         //判断胜负
-        if (step.getEndPiece() == ChineseChessPieceEnum.GREEN_KING || step.getEndPiece() == ChineseChessPieceEnum.RED_KING) {
-            if (!step.getEndPiece().getColor().equals(step.getStartPiece().getColor())) {
-                logger.info("游戏结束" + toString());
-                //TODO 游戏结束
-            }
+        if (ChineseChessPieceEnum.GREEN_KING == step.getEndPiece() || ChineseChessPieceEnum.RED_KING == step.getEndPiece()) {
+            logger.info("游戏结束," + step.getEndPiece().getColor().toString() + "方获胜。" + toString());
+            endGame(player);
+        } else {
+            //TODO 计时器反转
         }
-        //TODO 计时器反转
+
 
         return true;
     }
@@ -247,8 +247,145 @@ public class ChineseChessRoom {
      * @return 是否符合
      */
     private boolean isConformRules(ChineseChessPieceEnum piece, Coord startPoint, Coord endPoint) {
-        //TODO
-        return true;
+        //起始位置到终点位置的距离
+        int distanceX = Math.abs(startPoint.getX() - endPoint.getX());
+        int distanceY = Math.abs(startPoint.getY() - endPoint.getY());
+        int distance = distanceX + distanceY;
+
+        //两个位置之间棋子的数量
+        int[] barriers = countBarriers(startPoint.getX(), startPoint.getY(), endPoint.getX(), endPoint.getY());
+
+        //是否在九宫格中
+        boolean inRedSquare = endPoint.getX() >= 3 && endPoint.getX() <= 5 && endPoint.getY() >= 7;
+        boolean inGreenSquare = endPoint.getX() >= 3 && endPoint.getX() <= 5 && endPoint.getY() <= 2;
+
+        switch (piece) {
+            case RED_KING:
+                //帅
+                return distance == 1 && inRedSquare;
+            case GREEN_KING:
+                //将
+                return distance == 1 && inGreenSquare;
+            case RED_PAWN:
+                //兵
+                if (startPoint.getY() >= 5) {
+                    return distance == 1 && endPoint.getY() <= startPoint.getY();
+                } else {
+                    return distance == 1 && endPoint.getY() < startPoint.getY();
+                }
+            case GREEN_PAWN:
+                //卒
+                if (startPoint.getY() <= 4) {
+                    return distance == 1 && endPoint.getY() >= startPoint.getY();
+                } else {
+                    return distance == 1 && endPoint.getY() > startPoint.getY();
+                }
+            case RED_ROOK:
+            case GREEN_ROOK:
+                //车
+                return barriers[0] == 0 && barriers[1] == 0;
+            case RED_CANNON:
+            case GREEN_CANNON:
+                //炮
+                if (this.chessBoard[endPoint.getX()][endPoint.getY()] == null) {
+                    //如果终点位置没有棋子，则为走棋
+                    return barriers[0] == 0 && barriers[1] == 0;
+                } else {
+                    //如果终点位置有棋子，则为吃子
+                    return barriers[0] == 1 && barriers[1] == 0;
+                }
+            case RED_KNIGHT:
+            case GREEN_KNIGHT:
+                //马
+                if (distanceX == 1 && distanceY == 2) {
+                    return chessBoard[startPoint.getX()][(startPoint.getY() + endPoint.getY()) / 2] == null;
+                } else if (distanceX == 2 && distanceY == 1) {
+                    return chessBoard[(startPoint.getX() + endPoint.getX()) / 2][startPoint.getY()] == null;
+                } else {
+                    return false;
+                }
+
+            case RED_ELEPHANT:
+                if (endPoint.getY() <= 4) {
+                    return false;
+                }
+            case GREEN_ELEPHANT:
+                //相
+                if (endPoint.getY() >= 5) {
+                    return false;
+                }
+                if (distanceX != 2 || distanceY != 2) {
+                    return false;
+                }
+                return chessBoard[(startPoint.getX() + endPoint.getX()) / 2][(startPoint.getY() + endPoint.getY()) / 2] == null;
+            case RED_MANDARIN:
+                return distanceX == 1 && distanceY == 1 && inRedSquare;
+            case GREEN_MANDARIN:
+                //士
+                return distanceX == 1 && distanceY == 1 && inGreenSquare;
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * 计算两个位置之间的“障碍”棋子数
+     *
+     * @param x1 起点位置x坐标
+     * @param y1 起点位置y坐标
+     * @param x2 终点位置x坐标
+     * @param y2 终点位置y坐标
+     * @return 同色的“障碍‘数和不同色的”障碍“数
+     */
+    private int[] countBarriers(int x1, int y1, int x2, int y2) {
+        int barriers1 = 0;
+        int barriers2 = 0;
+        if (x1 == x2) {
+            if (y1 < y2) {
+                for (int y = y1 + 1; y < y2; y++) {
+                    if (chessBoard[x1][y] != null) {
+                        if (chessBoard[x1][y].getColor() == chessBoard[x1][y1].getColor()) {
+                            barriers1++;
+                        } else {
+                            barriers2++;
+                        }
+                    }
+                }
+            } else {
+                for (int y = y2 + 1; y < y1; y++) {
+                    if (chessBoard[x1][y] != null) {
+                        if (chessBoard[x1][y].getColor() == chessBoard[x1][y1].getColor()) {
+                            barriers1++;
+                        } else {
+                            barriers2++;
+                        }
+                    }
+                }
+            }
+        } else if (y1 == y2) {
+            if (x1 < x2) {
+                for (int x = x1 + 1; x < x2; x++) {
+                    if (chessBoard[x][y1] != null) {
+                        if (chessBoard[x][y1].getColor() == chessBoard[x1][y1].getColor()) {
+                            barriers1++;
+                        } else {
+                            barriers2++;
+                        }
+                    }
+                }
+            } else {
+                for (int x = x2 + 1; x < x1; x++) {
+                    if (chessBoard[x][y1] != null) {
+                        if (chessBoard[x][y1].getColor() == chessBoard[x1][y1].getColor()) {
+                            barriers1++;
+                        } else {
+                            barriers2++;
+                        }
+                    }
+                }
+            }
+        }
+        return new int[]{barriers1, barriers2};
     }
 
     /**
@@ -277,6 +414,21 @@ public class ChineseChessRoom {
 
         //红方启动计时器
         timer.schedule(player.makeTimerTask(), 0, 1000);
+    }
+
+
+    /**
+     * 游戏结束后的处理工作
+     *
+     * @param winner 获胜的玩家
+     */
+    private void endGame(Player winner) {
+        if (winner == null) {
+            //和棋
+        }
+        //TODO
+        //中止计时器
+
     }
 
     /**
